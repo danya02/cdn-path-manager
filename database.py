@@ -41,6 +41,7 @@ class BlobAsset(MyModel):
     hash = pw.BlobField()
     size = pw.BigIntegerField(index=True)
     file_ext = pw.ForeignKeyField(FileExtension, null=True)
+    last_scrubbed_at = pw.DateTimeField(default=pw.datetime.datetime.now)
 
     class Meta:
         indexes = (
@@ -57,6 +58,9 @@ class BlobAsset(MyModel):
     
     def get_path(self) -> Path:
         return get_file_path(self.hash_algo, self.hash, self.file_ext.name if self.file_ext else '')
+
+    def verify_multihash(self, multihash: MultihashResult) -> bool:
+        return self.hash == multihash.get_hash_by_id(self.hash_algo)
 
 
 def get_file_path(hash_algo_id: int, hash: bytes, file_ext: str, also_make_dirs=True) -> Path:
