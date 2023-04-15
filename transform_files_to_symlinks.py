@@ -40,7 +40,7 @@ def make_file_into_symlink(path: Path):
         matching_file = matching_files[0]
         with db.atomic():
             MappedFile(
-                file_name=str(rel_path),
+                file_path=str(rel_path),
                 content=matching_file
             ).save()
         
@@ -61,7 +61,7 @@ def make_file_into_symlink(path: Path):
             )
             new_file.save()
             MappedFile(
-                file_name=str(rel_path),
+                file_path=str(rel_path),
                 content=new_file
             ).save()
 

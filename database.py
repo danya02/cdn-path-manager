@@ -84,5 +84,5 @@ def get_file_path(hash_algo_id: int, hash: bytes, file_ext: str, also_make_dirs=
 class MappedFile(MyModel):
     """Represents a file reference that lives in the mapping directory and references a BlobAsset."""
 
-    file_name = pw.CharField(unique=True)  # Relative path inside the mapping directory, like 'images/1337/hello.png'
+    file_path = pw.CharField(unique=True)  # Relative path inside the mapping directory, like 'images/1337/hello.png'
     content = pw.ForeignKeyField(BlobAsset, backref="referring_files")
